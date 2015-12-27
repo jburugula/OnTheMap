@@ -20,21 +20,16 @@ class OTMTableViewController: UITableViewController{
     
     @IBOutlet weak var refreshBtn: UIBarButtonItem!
     
-    var locations: [StudentLocations] = [StudentLocations]()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if(OTMClient.sharedInstance().locations.count > 0) {
+        if(OTMClient.sharedInstance().locations.count == 0) {
             
-            locations = OTMClient.sharedInstance().locations
-            studentTable.reloadData()
-        }
-        else
-        {
             getStudentLocations()
+            
         }
+        self.studentTable.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -48,12 +43,9 @@ class OTMTableViewController: UITableViewController{
     
     func getStudentLocations(){
         
-        OTMClient.sharedInstance().getStudentLocations{ studentLocation, error in
-            if let studentLocation = studentLocation {
-                
-                OTMClient.sharedInstance().locations = studentLocation
-                self.locations = studentLocation
-                dispatch_async(dispatch_get_main_queue()) {
+        OTMClient.sharedInstance().getStudentLocations{ (success: Bool, error: String?) -> Void in
+            if success {
+                dispatch_async(dispatch_get_main_queue()){
                     self.studentTable.reloadData()
                 }
             } else {
@@ -72,7 +64,7 @@ class OTMTableViewController: UITableViewController{
     // Return number of Rows
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locations.count
+        return OTMClient.sharedInstance().locations.count
     }
     
     // set details for the selected Cell
@@ -82,7 +74,7 @@ class OTMTableViewController: UITableViewController{
         
         let cell = tableView.dequeueReusableCellWithIdentifier("StudentTableCell") as! StudentTableCell
         
-        let namecell = locations[indexPath.row]
+        let namecell = OTMClient.sharedInstance().locations[indexPath.row]
         
         let firstname = namecell.firstName
         let lastname = namecell.lastName
@@ -94,7 +86,7 @@ class OTMTableViewController: UITableViewController{
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let location = locations[indexPath.row]
+        let location = OTMClient.sharedInstance().locations[indexPath.row]
         let mediaURL = location.mediaURL
         let app = UIApplication.sharedApplication()
         app.openURL(NSURL(string: mediaURL)!)

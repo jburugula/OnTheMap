@@ -78,7 +78,7 @@ extension OTMClient {
     
     
     // Get student location data from Parse.
-    func getStudentLocations(completionHandler: (result: [StudentLocations]?, errorString: String?) -> Void) {
+    func getStudentLocations(completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         // Set the variables
         let parameters = [String: AnyObject]()
@@ -91,13 +91,14 @@ extension OTMClient {
         self.taskForGETMethod(parameters, baseURL: baseURL, method: method, key: key) { result, error in
             // Send the desired value(s) to completion handler
             if let _ = error {
-                completionHandler(result: nil, errorString: "Please check your network connection, then tap refresh to try again.")
+                completionHandler(success: false, errorString: "Please check your network connection, then tap refresh to try again.")
             } else {
                 if let results = result.valueForKey(OTMClient.JSONResponseKeys.Results) as? [[String : AnyObject]] {
                     let studentLocations = StudentLocations.locationsFromResults(results)
-                    completionHandler(result: studentLocations, errorString: "successful")
+                    OTMClient.sharedInstance().locations =  studentLocations
+                    completionHandler(success: true, errorString: "successful")
                 } else {
-                    completionHandler(result: nil, errorString: "Server error. Please tap refresh to try again.")
+                    completionHandler(success: false, errorString: "Server error. Please tap refresh to try again.")
                 }
             }
         }
