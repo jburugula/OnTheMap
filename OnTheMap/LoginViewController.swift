@@ -69,8 +69,8 @@ class LoginViewController: UIViewController , UITextFieldDelegate{
             debugLabel.text = "Password Empty."
         } else {
             
-            usrName = userNameText.text  //"test11@gmail.com"
-            passWord = passWordText.text   //"Test11ForNano"
+            usrName = userNameText.text
+            passWord = passWordText.text
             
             userNameText.resignFirstResponder()
             passWordText.resignFirstResponder()

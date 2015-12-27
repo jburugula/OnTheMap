@@ -24,7 +24,7 @@ class OTMTableViewController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if(OTMClient.sharedInstance().locations.count == 0) {
+        if(UserData.sharedInstance().locations.count == 0) {
             
             getStudentLocations()
             
@@ -64,7 +64,7 @@ class OTMTableViewController: UITableViewController{
     // Return number of Rows
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return OTMClient.sharedInstance().locations.count
+        return UserData.sharedInstance().locations.count
     }
     
     // set details for the selected Cell
@@ -74,7 +74,7 @@ class OTMTableViewController: UITableViewController{
         
         let cell = tableView.dequeueReusableCellWithIdentifier("StudentTableCell") as! StudentTableCell
         
-        let namecell = OTMClient.sharedInstance().locations[indexPath.row]
+        let namecell = UserData.sharedInstance().locations[indexPath.row]
         
         let firstname = namecell.firstName
         let lastname = namecell.lastName
@@ -86,7 +86,7 @@ class OTMTableViewController: UITableViewController{
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let location = OTMClient.sharedInstance().locations[indexPath.row]
+        let location = UserData.sharedInstance().locations[indexPath.row]
         let mediaURL = location.mediaURL
         let app = UIApplication.sharedApplication()
         app.openURL(NSURL(string: mediaURL)!)

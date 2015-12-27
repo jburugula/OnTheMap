@@ -15,21 +15,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+ 
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if(OTMClient.sharedInstance().locations.count == 0) {
-            getStudentLocations()
-        }
-        
-        generateMap()
-        
-    }
-    
-    override func viewWillAppear(animated: Bool) {
+   override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
-        generateMap()
+         self.getStudentLocations()
     }
     
     
@@ -54,7 +45,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func generateMap()
     {
-        
         // We will create an MKPointAnnotation for each dictionary in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.
         var annotations = [MKPointAnnotation]()
@@ -63,7 +53,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // to create map annotations. This would be more stylish if the dictionaries were being
         // used to create custom structs. Perhaps StudentLocation structs.
         
-        for dictionary in OTMClient.sharedInstance().locations {
+        for dictionary in UserData.sharedInstance().locations {
             
             // Notice that the float values are being used to create CLLocationDegree values.
             // This is a version of the Double type.

@@ -13,8 +13,6 @@ class StudentTableCell: UITableViewCell {
    
     @IBOutlet weak var studentName: UILabel!
     
-    var locations = [StudentLocations]()
-    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

@@ -88,14 +88,14 @@ extension OTMClient {
         let method = limit+updatedAt
         let key = ""
         
-        self.taskForGETMethod(parameters, baseURL: baseURL, method: method, key: key) { result, error in
+         self.taskForGETMethod(parameters, baseURL: baseURL, method: method, key: key) { result, error in
             // Send the desired value(s) to completion handler
             if let _ = error {
                 completionHandler(success: false, errorString: "Please check your network connection, then tap refresh to try again.")
             } else {
                 if let results = result.valueForKey(OTMClient.JSONResponseKeys.Results) as? [[String : AnyObject]] {
                     let studentLocations = StudentLocations.locationsFromResults(results)
-                    OTMClient.sharedInstance().locations =  studentLocations
+                    UserData.sharedInstance().locations =  studentLocations
                     completionHandler(success: true, errorString: "successful")
                 } else {
                     completionHandler(success: false, errorString: "Server error. Please tap refresh to try again.")

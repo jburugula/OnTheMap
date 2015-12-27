@@ -12,23 +12,15 @@ class OTMClient : NSObject {
     /* Shared session */
     var session: NSURLSession
     
-    /* Configuration object */
-    // var config = OTMConfig()
-    
     /* Authentication state */
     var sessionID : String? = nil
     var userID : Int? = nil
     
     
-    /*Shared Location Array*/
-    var locations: [StudentLocations] = [StudentLocations]()
-    
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
     }
-    
-    
     
     
     // Post Method
